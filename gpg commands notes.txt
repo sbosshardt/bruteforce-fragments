@@ -1,0 +1,31 @@
+echo "throwaway file" > deleteme.tmp
+
+# Import the sample public key
+gpg --batch --yes --import sample_public.key 
+
+# Import the sample private key
+gpg --batch --passphrase IDontKnow --allow-secret-key-import --import sample_private.key
+
+# return value ($?) of 0 means success
+gpg --pinentry-mode loopback --passphrase TestPassword! --detach-sign --armor --local-user 968A5D201E7D99B3BCC2BFE3F516E74EB45052AD deleteme.tmp
+
+# verify
+gpg --verify deleteme.tmp.asc
+
+rm deleteme.tmp
+
+gpg --batch --yes --delete-secret-keys 968A5D201E7D99B3BCC2BFE3F516E74EB45052AD
+gpg --batch --yes --delete-keys 968A5D201E7D99B3BCC2BFE3F516E74EB45052AD
+
+
+gpg --always-trust --batch --yes --armor -r 968A5D201E7D99B3BCC2BFE3F516E74EB45052AD -o deleteme.tmp.gpg --encrypt deleteme.tmp
+
+gpg --batch --pinentry-mode loopback  --passphrase IDontKnow -o deleteme.tmp.out --decrypt deleteme.tmp.gpg
+
+gpg --batch --pinentry-mode loopback --passphrase IDontKnow --decrypt test-message.asc
+
+# If it remembers/caches a valid passphrase
+gpgconf --kill gpg-agent
+
+gpg --list-secret-keys --with-colons --fingerprint
+

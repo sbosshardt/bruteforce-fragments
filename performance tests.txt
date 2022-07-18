@@ -1,0 +1,14 @@
+Single-process
+Run time:  67.484  secs
+
+Multi-process (6)
+Run time:  70.673  secs
+
+Multi-process (8)
+Run time:  70.233  secs
+
+Multi-process (2)
+Run time:  67.345  secs
+
+Multi-process (3)
+Run time:  67.810  secs
